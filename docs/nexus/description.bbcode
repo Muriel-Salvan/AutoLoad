@@ -1,0 +1,112 @@
+[b][size=6]AutoLoad[/size][/b]
+
+Windows command file that [b]automatically loads saved games upon game launch[/b] in Bethesda games.
+
+[list]
+[*]You want to create shortcuts on your desktop to launch some saves automatically, without getting through the initial game load menu?
+[*]You want to automatically re-launch the game with your latest save after a CTD?
+[*]You want to perform automated tasks on your game, and need to make sure the game can start, load a game, and run without human intervention?
+[/list]
+If you answered yes to at least 1 of those questions, then AutoLoader is for you.
+
+The list of games that are eligible to this tool (non-exhaustive list):
+[list]
+[*]Skyrim Special Edition - Tested successfully.
+[*]Skyrim - Not tested yet - Feedback welcome!
+[*]Fallout 4 - Not tested yet - Feedback welcome!
+[/list]
+Unfortunately there is no easy way to perform such a simple task. Therefore this solution has been developed.
+
+[size=5][size=5]-----[/size] Requirements [size=5]-----[/size][/size]
+
+2 tools and 1 mod are needed for AutoLoad to work:
+[list]
+[*][url=https://www.autohotkey.com/]AutoHotKey[/url] (aka AHK) - You have to install it on your Windows system. This is needed to batch key strokes to the game to load a saved game.
+[*][url=https://skse.silverlock.org/]SKSE[/url] - You have to install on your Bethesda game. This is needed for the PapyrusUtil requirement.
+[*][url=https://www.nexusmods.com/skyrimspecialedition/mods/13048]PapyrusUtil[/url] - You have to get this mod installed in your Bethesda game. This is needed to save load game statuses in JSON files.
+[/list]
+[size=5][size=5]-----[/size] Installation [size=5]-----[/size][/size]
+
+AutoLoad packages are downloadable from [url=https://www.nexusmods.com/skyrimspecialedition/mods/41478]Nexus Mods[/url].
+
+Once requirements are installed, you can use AutoLoad either by copying its package content to your Bethesda game's Data folder, or by using its packaged content with a mod manager like [url=https://www.nexusmods.com/skyrimspecialedition/mods/6194]ModOrganizer[/url].
+
+[size=5][size=5]-----[/size] Usage [size=5]-----[/size][/size]
+
+Once installed, you can use the AutoLoad.cmd Windows command file to execute your game and automatically load a saved game, given as an argument to the command file.
+
+Example, to load the save named [font=Courier New][b]my_save[/b][/font]:
+[code]AutoLoad.cmd my_save
+[/code]
+Save names can be found in your game's saves directory (for standard Skyrim SE installation, look into [b][font=Courier New]~\Documents\My Games\Skyrim Special Edition\Saves[/font][/b]).
+You can create easily a new save with the name you want in-game using the console ([i]~[/i] key) and using the [i]save[/i] command.
+
+Example, to create a save named [font=Courier New][b]my_save[/b][/font] from the game console:
+[code]save my_save
+[/code]
+[size=5][size=5]-----[/size] Configuration [size=5]-----[/size][/size]
+
+By default AutoLoad is configured to work with Skyrim SE installed using steam in default installation paths, and launched using SKSE.
+
+If you want to adapt it for other games or installation setups, you'll need to change 2 things:
+[list]
+[*]The name of your game's exe file, in [b][font=Courier New]AHK/AutoLoad.ahk[/font][/b]: look for the line [code]gameExe := "SkyrimSE.exe"[/code] and change [font=Courier New][b]SkyrimSE.exe[/b][/font] to the corresponding executable file name that is executing the game (it's not the launcher executable: even if you use [font=Courier New][b]skse_loader.exe[/b][/font] to launch your game, the game executable that runs is still [font=Courier New][b]SkyrimSE.exe[/b][/font]).
+[*]The paths to the game and AHK, as well as the launcher in [font=Courier New][b]AutoLoad.cmd[/b][/font]: look for the following variables and adapt them to your liking:[list]
+[*][font=Courier New][b]gameDir[/b][/font]: Directory where your game is installed (path to the directory containing the [font=Courier New][b]Data[/b][/font] folder).
+[*][font=Courier New][b]gameExe[/b][/font]: Name of the launcher executed to run the game (can be [font=Courier New][b]skse_loader.exe[/b][/font] if using SKSE).
+[*][font=Courier New][b]autoHotkeyCmd[/b][/font]: Full AHK command line with path.
+[/list]
+[/list]
+[size=5]----- Compatibility -----[/size]
+
+This mode is compatible with all mods without conflict.
+
+[size=5]----- How does it work? -----[/size]
+
+The solution design is a bit tricky given the simplicity of the requirement it addresses, but Bethesda launchers don't have ways to perform such a simple task.
+Therefore the solution uses AHK to simulate key strokes while in game: it invokes the console and types in [font=Courier New][b]load <save_name>[/b][/font], which loads the save in-game.
+
+However 2 issues arise:
+[list]
+[*]AHK has no way to know when the game is ready to accept such commands. Therefore it will try repeatedly to send the key strokes to load the game until the game is loaded.
+[*]AHK has no way to know if the command was executed and the saved game has been loaded. Therefore AHK will communicate with the game engine using a JSON file ([font=Courier New][b]Data\SKSE\Plugins\StorageUtilData\AutoLoad_Status.json[/b][/font]): as soon as the game is loaded, a Papyrus script will update the content of this file, so that AHK knows the game has been loaded and that it should stop sending key strokes to load the game. Hence the addtional Papyrus scripts present in this mod, and the [font=Courier New][b]AutoLoad.esp[/b][/font] file that will just register those scripts so that they trigger on each saved game being loaded.
+[/list]
+Here is a sequence diagram of an example of the events involved between AHK and the game to load automatically a saved game from [font=Courier New][b]AutoLoad.cmd[/b][/font].
+
+[img]https://raw.githubusercontent.com/Muriel-Salvan/AutoLoad/master/docs/sequence.png[/img]
+
+[size=5]----- Troubleshooting -----[/size]
+
+When run, the AHK script dump logs in a file named [font=Courier New][b]AHK\AutoLoad.log[/b][/font].
+
+The Papyrus script does not log anything on disk except the status in the JSON file [font=Courier New][b]Data\SKSE\Plugins\StorageUtilData\AutoLoad_Status.json[/b][/font]. It will change the status [font=Courier New][b]Waiting[/b][/font] into [font=Courier New][b]Loaded[/b][/font]. It will notify the player in-game with a small notification on the upper-left corner of the screen, that reads [code]Game auto-loaded successfully[/code]
+The AHK script can also be run without using [font=Courier New][b]AutoLoad.cmd[/b][/font], given that the saved game name is given as an argument to it. In this case it runs in the background (with a small icon in the Windows notification area), and waits for the game to starts. It is then possible to run the game later.
+
+The files [font=Courier New][b]AHK\AutoLoad.ahk[/b][/font] and [font=Courier New][b]AutoLoad.cmd[/b][/font] can be modified to your liking, and modifications are taken into account immediately when you relaunch [font=Courier New][b]AutoLoad.cmd[/b][/font].
+ However the Papyrus scripts need recompilation upon modification (this can be done through the CreationKit, or using the [font=Courier New][b]build.cmd[/b][/font] build tool).
+
+[size=5]----- Developers corner -----[/size]
+
+[size=4]--- Build a packaged version of AutoLoad from the source ---[/size]
+
+This can be achieved using the [font=Courier New][b]build.cmd[/b][/font] tool, from a command-line session:
+
+[list=1]
+[*]If The game directory is not the default one (standard Skyrim SSE installed via Steam), then set the [b][font=Courier New]gameDir[/font][/b] variable to the game path.
+Example:[code]set "gameDir=C:\My Games\Skyrim"
+[/code]
+[*]If PapyrusUtils is installed in another location than the game data path, set the [font=Courier New][b]papyrusUtilDir[/b][/font] variable to its path.
+Example:[code]set "PapyrusUtils=C:\My Mods\PapyrusUtils"
+[/code]
+[*]You'll need [url=https://www.7-zip.org/]7-zip[/url] to package AutoLoad. If 7-zip is installed to a non-standard location, specify the path to 7-zip using the [font=Courier New][b]sevenZipDir[/b][/font]
+ variable.
+Example:[code]set "sevenZipDir=C:\Programs\7zip"
+[/code]
+[*]Launch the [font=Courier New][b]build.cmd[/b][/font] command from the root of the repository:[code]build.cmd
+[/code]
+[/list]
+This will compile the Papyrus scripts and generate a packaged version of AutoLoad in the file [font=Courier New][b]AutoLoad.7z[/b][/font]
+
+[size=5]----- Contributions -----[/size]
+
+Don't hesitate to fork the [url=https://github.com/Muriel-Salvan/AutoLoad]Github repository[/url] and contribute with Pull Requests.
