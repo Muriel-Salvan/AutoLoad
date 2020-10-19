@@ -22,4 +22,5 @@ cd .\Data\Source\Scripts
 "%gameDir%\Papyrus Compiler\PapyrusCompiler.exe" . -all -output="..\..\Scripts" -flags="%gameDir%\Data\Source\Scripts\TESV_Papyrus_Flags.flg" -import="%gameDir%\Data\Source\Scripts;%papyrusUtilDir%\Source\Scripts"
 cd ..\..\..
 
+del AutoLoad.7z
 "%sevenZipDir%\7z.exe" a AutoLoad.7z Data\ CHANGELOG.md LICENSE README.md docs\
