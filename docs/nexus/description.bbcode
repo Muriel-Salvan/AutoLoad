@@ -34,10 +34,16 @@ Once requirements are installed, you can use AutoLoad either by copying its pack
 [size=5][size=5]-----[/size] Usage [size=5]-----[/size][/size]
 
 Once installed, you can use the AutoLoad.cmd Windows command file to execute your game and automatically load a saved game, given as an argument to the command file.
+If no argument is given, the the latest save is loaded.
 
 Example, to load the save named [font=Courier New][b]my_save[/b][/font]:
 [code]AutoLoad.cmd my_save
 [/code]
+
+To load the latest save:
+[code]AutoLoad.cmd
+[/code]
+
 Save names can be found in your game's saves directory (for standard Skyrim SE installation, look into [b][font=Courier New]~\Documents\My Games\Skyrim Special Edition\Saves[/font][/b]).
 You can create easily a new save with the name you want in-game using the console ([i]~[/i] key) and using the [i]save[/i] command.
 
@@ -59,7 +65,7 @@ If you want to adapt it for other games or installation setups, you'll need to c
 [/list]
 [size=5]----- Compatibility -----[/size]
 
-This mode is compatible with all mods without conflict.
+This mod is compatible with all mods without conflict.
 
 [size=5]----- How does it work? -----[/size]
 
@@ -74,6 +80,8 @@ However 2 issues arise:
 Here is a sequence diagram of an example of the events involved between AHK and the game to load automatically a saved game from [font=Courier New][b]AutoLoad.cmd[/b][/font].
 
 [img]https://raw.githubusercontent.com/Muriel-Salvan/AutoLoad/master/docs/sequence.png[/img]
+
+The ESP plugin is flagged as ESL (so won't take place in your load order), and only defines a new start quest and a new reference alias to be able to update the JSON file upon game load.
 
 [size=5]----- Troubleshooting -----[/size]
 
