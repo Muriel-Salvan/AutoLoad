@@ -5,11 +5,8 @@
 
 #include %A_ScriptDir%/json.ahk
 
-// Expect the name of the save to be given as command line argument
-if (%0% == 0) {
-  MsgBox, Missing save name to be given as argument to the script.\nFor example: C:\\Program Files\\AutoHotkey\\AutoHotkey.exe AutoLoad.ahk MyGameSave
-  Exit, 1
-}
+// Expect the name of the save to be given as command line argument.
+// If no name given, just load latest save.
 
 
 // ===== Some global configuration =====
@@ -28,8 +25,12 @@ jsonFile := A_ScriptDir . "\\..\\SKSE\\Plugins\\StorageUtilData\\AutoLoad_Status
 // The executable name of the game
 gameExe := "SkyrimSE.exe"
 
-// The name of the same to be loaded
-saveName = %1%
+// The name of the save to be loaded
+if (%0% > 0) {
+  saveName = %1%
+} else {
+  saveName := "<Latest save>"
+}
 
 // The wait time (in milliseconds) before each attempt to auto-load the save
 loadSaveWaitTime := 5000
@@ -100,7 +101,13 @@ if (ErrorLevel == 0) {
           Log("Status is " . status . ". Send command to load " . saveName . "...")
           // Wait for the game window to be active, just in case the user Alt+Tabbed it
           WinWaitActive, ahk_exe %gameExe%
-          Send, ~{Enter}load %saveName%{Enter}
+          if (%0% > 0) {
+            Send, ~{Enter}load %saveName%{Enter}
+          } else {
+            Send, {Enter}
+            Sleep, 1000
+            Send, {Enter}
+          }
         }
       } else {
         // For whatever reason we can't access the JSON file anymore
