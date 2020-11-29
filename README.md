@@ -51,6 +51,21 @@ Example, to create a save named `my_save` from the game console:
 save my_save
 ```
 
+## Usage in Mod Organizer as an executable
+
+If you are using Mod Organizer, AutoLoad can be added to the executables list:
+* Enable the AutoLoad mod in your Mod Organizer's left pane
+* Get into the Data tab in your Mod Organizer's right pane, and find the file named `AutoLoad.cmd`.
+* Right-click on the `AutoLoad.cmd` file and select `Add as Executable`.
+
+If you want to edit the executable, or create it manually without the above procedure, here are the fields to set in the executable (`C:\MyMods\AutoLoad` is the directory where Mod Organizer has installed the AutoLoad mod in the example):
+* Title: `AutoLoad`
+* Binary: `C:\WINDOWS\system32\cmd.exe`
+* Start in: `C:\MyMods\AutoLoad`
+* Arguments: `/C "C:\MyMods\AutoLoad\AutoLoad.cmd"`
+
+If you want to configure your AutoLoad executable to run a specific save, add the save name after in the Arguments field.
+
 ## Configuration
 
 By default AutoLoad is configured to work with Skyrim SE installed using steam in default installation paths, and launched using SKSE.
