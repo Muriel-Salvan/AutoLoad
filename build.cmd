@@ -23,4 +23,8 @@ cd .\Data\Source\Scripts
 cd ..\..\..
 
 del AutoLoad.7z
-"%sevenZipDir%\7z.exe" a AutoLoad.7z Data\ CHANGELOG.md LICENSE README.md docs\
+cd Data
+"%sevenZipDir%\7z.exe" a ..\AutoLoad.7z
+cd ..
+
+md_to_bbcode --input README.md --output README.bbcode

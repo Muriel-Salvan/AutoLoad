@@ -108,12 +108,15 @@ Example:
 ```bat
 set "sevenZipDir=C:\Programs\7zip"
 ```
-4. Launch the `build.cmd` command from the root of the repository:
+4. You'll need [md_to_bbcode](https://github.com/Muriel-Salvan/md_to_bbcode) to generate documentation for NexusMods. Make sure it is installed (meaning that `md_to_bbcode --version` works).
+  
+5. Launch the `build.cmd` command from the root of the repository:
 ```bat
 build.cmd
 ```
 
 This will compile the Papyrus scripts and generate a packaged version of AutoLoad in the file `AutoLoad.7z`
+It will also generate a `README.bbcode` file which is a conversion of this `README.md` file in BBCode, ready to be copy-pasted in the NexusMod's description.
 
 ## Contributions
 
