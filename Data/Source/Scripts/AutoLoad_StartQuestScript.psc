@@ -18,6 +18,6 @@ Function LoadEventAction()
     ; Just be aware that the value written will have its first letter converted as upper-case.
     JsonUtil.SetStringValue("AutoLoad_Status.json", "game_status", "Loaded")
     JsonUtil.Save("AutoLoad_Status.json")
-    Debug.Notification("Game auto-loaded successfully")
+    Debug.Notification("$GameAutoLoadedSuccessfully")
   endIf
 EndFunction

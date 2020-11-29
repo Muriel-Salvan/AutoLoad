@@ -81,6 +81,19 @@ If you want to adapt it for other games or installation setups, you'll need to c
 
 This mod is compatible with all mods without conflict.
 
+## Localization
+
+AutoLoad is translated in some languages (non-translated languages are displayed in english):
+* Czech: Not yet
+* English: Yes
+* French: Yes
+* German: Not yet
+* Italian: Yes
+* Japanese: Not yet
+* Polish: Not yet
+* Russian: Not yet
+* Spanish: Yes
+
 ## How does it work?
 
 The solution design is a bit tricky given the simplicity of the requirement it addresses, but Bethesda launchers don't have ways to perform such a simple task.
@@ -132,6 +145,10 @@ build.cmd
 
 This will compile the Papyrus scripts and generate a packaged version of AutoLoad in the file `AutoLoad.7z`
 It will also generate a `README.bbcode` file which is a conversion of this `README.md` file in BBCode, ready to be copy-pasted in the NexusMod's description.
+
+## Special thanks
+
+* To [JhonSilvers](https://www.nexusmods.com/skyrimspecialedition/users/69892368) for his precious help on localizing AutoLoad.
 
 ## Contributions
 
