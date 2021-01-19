@@ -72,7 +72,7 @@ By default AutoLoad is configured to work with Skyrim SE installed using steam i
 
 If you want to adapt it for other games or installation setups, you'll need to change 2 things:
 * The **name of your game's exe file, in `AHK/AutoLoad.ahk`**: look for the line `gameExe := "SkyrimSE.exe"` and change `SkyrimSE.exe` to the corresponding executable file name that is executing the game (it's not the launcher executable: even if you use `skse_loader.exe` to launch your game, the game executable that runs is still `SkyrimSE.exe`).
-* The **paths to the game and AHK, as well as the launcher in `AutoLoad.cmd`**: look for the following variables and adapt them to your liking:
+* The **paths to the game and AHK, as well as the launcher used by `AutoLoad.cmd`**: those are driven by environment variables (with default values defined in `AutoLoad.cmd`):
   * `gameDir`: Directory where your game is installed (path to the directory containing the `Data` folder).
   * `gameExe`: Name of the launcher executed to run the game (can be `skse_loader.exe` if using SKSE).
   * `autoHotkeyCmd`: Full AHK command line with path.
