@@ -6,7 +6,7 @@ Windows command file that **automatically loads saved games upon game launch** i
 * You want to automatically re-launch the game with your latest save after a CTD?
 * You want to perform automated tasks on your game, and need to make sure the game can start, load a game, and run without human intervention?
 
-If you answered yes to at least 1 of those questions, then AutoLoader is for you.
+If you answered yes to at least 1 of those questions, then AutoLoad is for you.
 
 The list of games that are eligible to this tool (non-exhaustive list):
 * Skyrim Special Edition - Tested successfully.
