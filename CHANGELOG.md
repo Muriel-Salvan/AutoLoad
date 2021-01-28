@@ -1,3 +1,7 @@
+# 1.3.0
+
+* Added default values to AutoLoad.cmd, mapping Skyrim SE and AHK default installations.
+
 # 1.2.0
 
 * Added Localization thanks to JhonSilvers.
