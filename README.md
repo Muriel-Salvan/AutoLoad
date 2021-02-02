@@ -9,6 +9,7 @@ Windows command file that **automatically loads saved games upon game launch** i
 If you answered yes to at least 1 of those questions, then AutoLoad is for you.
 
 The list of games that are eligible to this tool (non-exhaustive list):
+
 * Skyrim Special Edition - Tested successfully.
 * Skyrim - Not tested yet - Feedback welcome!
 * Fallout 4 - Not tested yet - Feedback welcome!
@@ -18,6 +19,7 @@ Unfortunately there is no easy way to perform such a simple task. Therefore this
 ## Requirements
 
 2 tools and 1 mod are needed for AutoLoad to work:
+
 * [AutoHotKey](https://www.autohotkey.com/) (aka AHK) - You have to install it on your Windows system. This is needed to batch key strokes to the game to load a saved game.
 * [SKSE](https://skse.silverlock.org/) - You have to install on your Bethesda game. This is needed for the PapyrusUtil requirement.
 * [PapyrusUtil](https://www.nexusmods.com/skyrimspecialedition/mods/13048) - You have to get this mod installed in your Bethesda game. This is needed to save load game statuses in JSON files.
@@ -54,11 +56,13 @@ save my_save
 ## Usage in Mod Organizer as an executable
 
 If you are using Mod Organizer, AutoLoad can be added to the executables list:
+
 * Enable the AutoLoad mod in your Mod Organizer's left pane
 * Get into the Data tab in your Mod Organizer's right pane, and find the file named `AutoLoad.cmd`.
 * Right-click on the `AutoLoad.cmd` file and select `Add as Executable`.
 
 If you want to edit the executable, or create it manually without the above procedure, here are the fields to set in the executable (`C:\MyMods\AutoLoad` is the directory where Mod Organizer has installed the AutoLoad mod in the example):
+
 * Title: `AutoLoad`
 * Binary: `C:\WINDOWS\system32\cmd.exe`
 * Start in: `C:\MyMods\AutoLoad`
@@ -71,6 +75,7 @@ If you want to configure your AutoLoad executable to run a specific save, add th
 By default AutoLoad is configured to work with Skyrim SE installed using steam in default installation paths, and launched using SKSE.
 
 If you want to adapt it for other games or installation setups, you'll need to change 2 things:
+
 * The **name of your game's exe file, in `AHK/AutoLoad.ahk`**: look for the line `gameExe := "SkyrimSE.exe"` and change `SkyrimSE.exe` to the corresponding executable file name that is executing the game (it's not the launcher executable: even if you use `skse_loader.exe` to launch your game, the game executable that runs is still `SkyrimSE.exe`).
 * The **paths to the game and AHK, as well as the launcher used by `AutoLoad.cmd`**: those are driven by environment variables (with default values defined in `AutoLoad.cmd`):
   * `gameDir`: Directory where your game is installed (path to the directory containing the `Data` folder).
@@ -84,6 +89,7 @@ This mod is compatible with all mods without conflict.
 ## Localization
 
 AutoLoad is translated in some languages (non-translated languages are displayed in english):
+
 * Czech: Not yet
 * English: Yes
 * French: Yes
@@ -99,6 +105,7 @@ AutoLoad is translated in some languages (non-translated languages are displayed
 The solution design is a bit tricky given the simplicity of the requirement it addresses, but Bethesda launchers don't have ways to perform such a simple task.
 Therefore **the solution uses AHK to simulate key strokes while in game: it invokes the console and types in `load <save_name>`**, which loads the save in-game.
 However 2 issues arise:
+
 * AHK has no way to know when the game is ready to accept such commands. Therefore **it will try repeatedly** to send the key strokes to load the game until the game is loaded.
 * AHK has no way to know if the command was executed and the saved game has been loaded. Therefore **AHK will communicate with the game engine using a JSON file** (`Data\SKSE\Plugins\StorageUtilData\AutoLoad_Status.json`): as soon as the game is loaded, **a Papyrus script will update the content of this file, so that AHK knows the game has been loaded** and that it should stop sending key strokes to load the game. Hence the addtional Papyrus scripts present in this mod, and the `AutoLoad.esp` file that will just register those scripts so that they trigger on each saved game being loaded.
 
@@ -140,7 +147,7 @@ This can be achieved using the `build.cmd` tool, from a command-line session:
   set "sevenZipDir=C:\Programs\7zip"
   ```
   
-4. You'll need [md_to_bbcode](https://github.com/Muriel-Salvan/md_to_bbcode) to generate documentation for NexusMods. Make sure it is installed (meaning that `md_to_bbcode --version` works).
+4. You'll need [`md_to_bbcode`](https://github.com/Muriel-Salvan/md_to_bbcode) to generate documentation for NexusMods. Make sure it is installed (meaning that `md_to_bbcode --version` works).
   
 5. Launch the `build.cmd` command from the root of the repository:
   ```bat
